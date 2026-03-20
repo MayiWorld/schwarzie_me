@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Human Black Hole Calculator</title>
+</head>
+<body>
+  <h1>🕳️ Human Black Hole Calculator</h1>
+  <label>Weight (kg): <input type="number" id="mass" value="70"></label>
+  <label>Spin (0-0.99): <input type="number" id="spin" value="0" step="0.01" max="0.99" min="0"></label>
+  <button onclick="calculate()">Calculate!</button>
+
+  <h2>Results:</h2>
+  <p id="result"></p>
+
+  <script>
+    const G = 6.67430e-11;
+    const c = 299792458;
+
+    function calculate() {
+      const m = parseFloat(document.getElementById('mass').value);
+      const a = parseFloat(document.getElementById('spin').value);
+      
+      let Rs = 2*G*m/(c*c);
+      Rs = Rs * (1 + a*0.3); // tiny spin exaggeration
+
+      const earthRs = 2*G*5.972e24/(c*c);
+
+      document.getElementById('result').innerHTML =
+        `Schwarzschild radius: ${Rs.toExponential(5)} m<br>` +
+        `Earth if a BH: ${earthRs.toFixed(3)} m<br>` +
+        `Relative scale: your BH is ${earthRs/Rs} times smaller than Earth's BH`;
+    }
+  </script>
+</body>
+</html>
