@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>🕳️ The Schwarzie Calculator</title>
+    <title>The Schwarzie Collapser</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Google Font -->
@@ -134,6 +134,58 @@
             font-size: 0.9rem;
             color: #aaaaaa;
         }
+        .presets {
+            margin: 15px 0 25px 0;
+        }
+
+        .presets button {
+            margin: 5px;
+            padding: 10px 14px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, #6c63ff, #a855f7);
+            color: white;
+            transition: 0.3s;
+        }
+
+        .presets button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(168, 85, 247, 0.7);
+        }
+
+        .scale-container {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .scale-bar {
+            position: relative;
+            height: 6px;
+            background: linear-gradient(to right, #6c63ff, #a855f7);
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+    .scale-marker {
+            position: absolute;
+            top: -6px;
+            width: 14px;
+            height: 14px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffffff;
+            transform: translateX(-50%);
+        }
+
+    .scale-label {
+            position: absolute;
+            top: 12px;
+            transform: translateX(-50%);
+            font-size: 12px;
+            white-space: nowrap;
+        }
     </style>
 </head>
 
@@ -144,7 +196,7 @@
 
         <!-- Introduction -->
         <section class="intro">
-            <h2>🌌 Meet the Schwarzie Radius</h2>
+            <h2>Meet the Schwarzie Radius</h2>
             <p><strong>Cool Fact:</strong> If Earth were compressed into a black hole, it would be only about <strong>9 millimetres</strong> across—roughly the size of a marble.</p>
 
             <p>
@@ -161,13 +213,13 @@
             </p>
 
             <p class="tagline">
-                ✨ How small would you have to be to become unstoppable?
+                How small would you have to be to become unstoppable?
             </p>
         </section>
 
         <!-- Calculator -->
         <section class="calculator">
-            <h2>🔢 Calculate Your Schwarzie</h2>
+            <h2>Calculate Your Schwarzie</h2>
 
             <label>
                 Mass (kg):
@@ -186,10 +238,19 @@
             <button onclick="calculate()">Calculate</button>
 
             <div id="result"></div>
+            <h3>Try Preset Objects</h3>
+                <div class="presets">
+                    <button onclick="setMass(70)">🧍 Human (70 kg)</button>
+                    <button onclick="setMass(0.2)">🍎 Apple</button>
+                    <button onclick="setMass(1000)">🚗 Car</button>
+                    <button onclick="setMass(5.972e24)">🌍 Earth</button>
+                    <button onclick="setMass(1.989e30)">☀️ Sun</button>
+                    <button onclick="setMass(8.54e36)">🌌 Sagittarius A*</button>
+            </div>
         </section>
 
         <footer>
-            Built with curiosity, gravity, and a touch of stardust ✨
+            Built with curiosity, gravity, and a touch of stardust!
         </footer>
     </div>
 
