@@ -247,6 +247,10 @@
                     <button onclick="setMass(1.989e30)">☀️ Sun</button>
                     <button onclick="setMass(8.54e36)">🌌 Sagittarius A*</button>
             </div>
+            <div class="scale-container">
+            <h3>📏 Logarithmic Event Horizon Scale</h3>
+                <div class="scale-bar" id="scaleBar"></div>
+            </div>
         </section>
 
         <footer>
@@ -255,40 +259,92 @@
     </div>
 
     <script>
-        const G = 6.67430e-11;
-        const c = 299792458;
-        const earthMass = 5.972e24;
+const G = 6.67430e-11;
+const c = 299792458;
 
-        function calculate() {
-            const mass = parseFloat(document.getElementById("mass").value);
-            const spin = parseFloat(document.getElementById("spin").value);
+// Preset masses
+function setMass(value) {
+    document.getElementById("mass").value = value;
+    calculate();
+}
 
-            if (!mass || mass <= 0) {
-                document.getElementById("result").innerHTML =
-                    "Please enter a valid mass.";
-                return;
-            }
+// Reference Schwarzschild radii
+const references = [
+    { name: "Human", radius: (2 * G * 70) / (c * c) },
+    { name: "Earth", radius: (2 * G * 5.972e24) / (c * c) },
+    { name: "Sun", radius: (2 * G * 1.989e30) / (c * c) },
+    { name: "Sagittarius A*", radius: (2 * G * 8.54e36) / (c * c) }
+];
 
-            // Schwarzschild radius
-            let rs = (2 * G * mass) / (c * c);
+function calculate() {
+    const mass = parseFloat(document.getElementById("mass").value);
+    const spin = parseFloat(document.getElementById("spin").value) || 0;
 
-            // Fun Kerr-inspired exaggeration
-            rs *= (1 + spin * 0.3);
+    if (!mass || mass <= 0) {
+        document.getElementById("result").innerHTML =
+            "Please enter a valid mass.";
+        return;
+    }
 
-            // Earth's Schwarzschild radius
-            const earthRs = (2 * G * earthMass) / (c * c);
+    // Schwarzschild radius
+    let rs = (2 * G * mass) / (c * c);
 
-            document.getElementById("result").innerHTML = `
-                <p><strong>Your Schwarzschild Radius:</strong><br>
-                ${rs.toExponential(5)} meters</p>
+    // Fun spin exaggeration
+    rs *= (1 + spin * 0.3);
 
-                <p><strong>Earth as a Black Hole:</strong><br>
-                ${earthRs.toFixed(3)} meters (~9 mm)</p>
+    // Earth's Schwarzschild radius
+    const earthRs = (2 * G * 5.972e24) / (c * c);
 
-                <p>Your Schwarzie is
-                ${(earthRs / rs).toExponential(3)} times smaller than Earth's.</p>
-            `;
-        }
+    document.getElementById("result").innerHTML = `
+        <p><strong>Your Schwarzschild Radius:</strong><br>
+        ${rs.toExponential(5)} meters</p>
+
+        <p><strong>Earth as a Black Hole:</strong><br>
+        ${earthRs.toFixed(3)} meters (~9 mm)</p>
+
+        <p>Your Schwarzie is
+        ${(earthRs / rs).toExponential(3)} times smaller than Earth's.</p>
+    `;
+
+    drawScale(rs);
+}
+
+function drawScale(userRadius) {
+    const scaleBar = document.getElementById("scaleBar");
+    scaleBar.innerHTML = "";
+
+    const allRadii = [...references.map(r => r.radius), userRadius];
+    const minLog = Math.log10(Math.min(...allRadii));
+    const maxLog = Math.log10(Math.max(...allRadii));
+
+    function getPosition(radius) {
+        return (
+            ((Math.log10(radius) - minLog) / (maxLog - minLog)) * 100
+        );
+    }
+
+    function addMarker(radius, label) {
+        const position = getPosition(radius);
+
+        const marker = document.createElement("div");
+        marker.className = "scale-marker";
+        marker.style.left = position + "%";
+
+        const text = document.createElement("div");
+        text.className = "scale-label";
+        text.style.left = position + "%";
+        text.innerText = label;
+
+        scaleBar.appendChild(marker);
+        scaleBar.appendChild(text);
+    }
+
+    references.forEach(ref =>
+        addMarker(ref.radius, ref.name)
+    );
+
+    addMarker(userRadius, "You");
+}
     </script>
 </body>
 </html>
