@@ -1,35 +1,233 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Human Black Hole Calculator</title>
+    <meta charset="UTF-8">
+    <title>🕳️ The Schwarzie Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: radial-gradient(circle at top, #0b0f2b, #000000 70%);
+            color: #ffffff;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Starfield Background */
+        body::before {
+            content: "";
+            position: fixed;
+            width: 200%;
+            height: 200%;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.15;
+            animation: drift 120s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes drift {
+            from { transform: translate(0, 0); }
+            to { transform: translate(-500px, -500px); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-family: "Orbitron", sans-serif;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #c084ff;
+            text-shadow: 0 0 12px rgba(192, 132, 255, 0.8);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #bbbbff;
+            margin-bottom: 30px;
+        }
+
+        .intro {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #8a2be2;
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.25);
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .intro h2 {
+            font-family: "Orbitron", sans-serif;
+            color: #c084ff;
+            margin-bottom: 15px;
+        }
+
+        .intro p {
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .tagline {
+            font-style: italic;
+            color: #bbbbff;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: none;
+            width: 180px;
+            text-align: center;
+        }
+
+        button {
+            background: linear-gradient(135deg, #6c63ff, #a855f7);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin-top: 10px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.7);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #e0d4ff;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #aaaaaa;
+        }
+    </style>
 </head>
+
 <body>
-  <h1>🕳️ Human Black Hole Calculator</h1>
-  <label>Weight (kg): <input type="number" id="mass" value="70"></label>
-  <label>Spin (0-0.99): <input type="number" id="spin" value="0" step="0.01" max="0.99" min="0"></label>
-  <button onclick="calculate()">Calculate!</button>
+    <div class="container">
+        <h1>🕳️ The Schwarzie Calculator</h1>
+        <p class="subtitle">Discover the size of your hypothetical black hole.</p>
 
-  <h2>Results:</h2>
-  <p id="result"></p>
+        <!-- Introduction -->
+        <section class="intro">
+            <h2>🌌 Meet the Schwarzie Radius</h2>
+            <p><strong>Cool Fact:</strong> If Earth were compressed into a black hole, it would be only about <strong>9 millimetres</strong> across—roughly the size of a marble.</p>
 
-  <script>
-    const G = 6.67430e-11;
-    const c = 299792458;
+            <p>
+                The <strong>Schwarzschild radius</strong>—affectionately known here as the
+                <em>“Schwarzie”</em>—marks the boundary where gravity becomes so powerful
+                that not even light can escape. Cross this invisible threshold, and you
+                enter the mysterious realm of a black hole.
+            </p>
 
-    function calculate() {
-      const m = parseFloat(document.getElementById('mass').value);
-      const a = parseFloat(document.getElementById('spin').value);
-      
-      let Rs = 2*G*m/(c*c);
-      Rs = Rs * (1 + a*0.3); // tiny spin exaggeration
+            <p>
+                This interactive experiment lets you calculate your own hypothetical
+                Schwarzie. Enter a mass, add a touch of spin, and compare yourself with
+                Earth, the Sun, and the giants of the cosmos.
+            </p>
 
-      const earthRs = 2*G*5.972e24/(c*c);
+            <p class="tagline">
+                ✨ How small would you have to be to become unstoppable?
+            </p>
+        </section>
 
-      document.getElementById('result').innerHTML =
-        `Schwarzschild radius: ${Rs.toExponential(5)} m<br>` +
-        `Earth if a BH: ${earthRs.toFixed(3)} m<br>` +
-        `Relative scale: your BH is ${earthRs/Rs} times smaller than Earth's BH`;
-    }
-  </script>
+        <!-- Calculator -->
+        <section class="calculator">
+            <h2>🔢 Calculate Your Schwarzie</h2>
+
+            <label>
+                Mass (kg):
+                <br>
+                <input type="number" id="mass" value="70" min="1">
+            </label>
+            <br>
+
+            <label>
+                Spin (Kerr Factor 0–0.99):
+                <br>
+                <input type="number" id="spin" value="0" min="0" max="0.99" step="0.01">
+            </label>
+            <br>
+
+            <button onclick="calculate()">Calculate</button>
+
+            <div id="result"></div>
+        </section>
+
+        <footer>
+            Built with curiosity, gravity, and a touch of stardust ✨
+        </footer>
+    </div>
+
+    <script>
+        const G = 6.67430e-11;
+        const c = 299792458;
+        const earthMass = 5.972e24;
+
+        function calculate() {
+            const mass = parseFloat(document.getElementById("mass").value);
+            const spin = parseFloat(document.getElementById("spin").value);
+
+            if (!mass || mass <= 0) {
+                document.getElementById("result").innerHTML =
+                    "Please enter a valid mass.";
+                return;
+            }
+
+            // Schwarzschild radius
+            let rs = (2 * G * mass) / (c * c);
+
+            // Fun Kerr-inspired exaggeration
+            rs *= (1 + spin * 0.3);
+
+            // Earth's Schwarzschild radius
+            const earthRs = (2 * G * earthMass) / (c * c);
+
+            document.getElementById("result").innerHTML = `
+                <p><strong>Your Schwarzschild Radius:</strong><br>
+                ${rs.toExponential(5)} meters</p>
+
+                <p><strong>Earth as a Black Hole:</strong><br>
+                ${earthRs.toFixed(3)} meters (~9 mm)</p>
+
+                <p>Your Schwarzie is
+                ${(earthRs / rs).toExponential(3)} times smaller than Earth's.</p>
+            `;
+        }
+    </script>
 </body>
 </html>
